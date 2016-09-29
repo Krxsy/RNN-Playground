@@ -7,3 +7,4 @@ Requirements
 - Theano
 - NumPy
 - Matplotlib>=1.4.2
+- SciPy
