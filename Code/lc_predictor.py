@@ -128,7 +128,7 @@ for i, curve in enumerate(learning_curves):
     plt.plot(scaler.inverse_transform(curve))
     plt.plot(train_preds_plot)
     plt.plot(test_preds_plot)
-    plt.savefig(path +'/plots/curve_%i.png' %i)
+    plt.savefig(path +'/lstm_plots/curve_%i.png' %i)
     
 
 '''
