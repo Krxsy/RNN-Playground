@@ -1,0 +1,116 @@
+fc_net_mnist dataset
+
+LSTM:
+
+look_back 3 curve_0:
+Train Score: 0.02357 MSE     Test Score: 0.01692 MSE
+look_back 3 curve_1:
+Train Score: 0.00002 MSE     Test Score: 0.00003 MSE
+look_back 3 curve_2:
+Train Score: 0.00003 MSE     Test Score: 0.00003 MSE
+look_back 3 curve_3:
+Train Score: 0.00006 MSE     Test Score: 0.00008 MSE
+look_back 3 curve_4:
+Train Score: 0.00004 MSE     Test Score: 0.00011 MSE
+fc_net_mnist dataset
+
+RNN:
+
+look_back 4 curve_0:
+Train Score: 0.02377 MSE     Test Score: 0.01811 MSE
+look_back 4 curve_1:
+Train Score: 0.00013 MSE     Test Score: 0.00036 MSE
+look_back 4 curve_2:
+Train Score: 0.00011 MSE     Test Score: 0.00013 MSE
+look_back 4 curve_3:
+Train Score: 0.00002 MSE     Test Score: 0.00002 MSE
+look_back 4 curve_4:
+Train Score: 0.00002 MSE     Test Score: 0.00002 MSE
+fc_net_mnist dataset
+
+RNN:
+
+look_back 5 curve_0:
+Train Score: 0.02402 MSE     Test Score: 0.01821 MSE
+look_back 5 curve_1:
+Train Score: 0.00001 MSE     Test Score: 0.00000 MSE
+look_back 5 curve_2:
+Train Score: 0.00013 MSE     Test Score: 0.00019 MSE
+look_back 5 curve_3:
+Train Score: 0.00005 MSE     Test Score: 0.00009 MSE
+look_back 5 curve_4:
+Train Score: 0.00008 MSE     Test Score: 0.00003 MSE
+fc_net_mnist dataset
+
+RNN:
+
+look_back 10 curve_0:
+Train Score: 0.0199683452 MSE     Test Score: 0.01428 MSE
+look_back 10 curve_1:
+Train Score: 0.0000177907 MSE     Test Score: 0.00002 MSE
+look_back 10 curve_2:
+Train Score: 0.0000803032 MSE     Test Score: 0.00005 MSE
+look_back 10 curve_3:
+Train Score: 0.0000153841 MSE     Test Score: 0.00002 MSE
+look_back 10 curve_4:
+Train Score: 0.0000235500 MSE     Test Score: 0.00004 MSE
+
+
+fc_net_mnist dataset
+
+LSTM:
+
+look_back 4 curve_0:
+Train Score: 0.0245662156 MSE     Test Score: 0.01640 MSE
+look_back 4 curve_1:
+Train Score: 0.0000224229 MSE     Test Score: 0.00006 MSE
+look_back 4 curve_2:
+Train Score: 0.0002323617 MSE     Test Score: 0.00063 MSE
+look_back 4 curve_3:
+Train Score: 0.0001254208 MSE     Test Score: 0.00017 MSE
+look_back 4 curve_4:
+Train Score: 0.0000373892 MSE     Test Score: 0.00007 MSE
+fc_net_mnist dataset
+
+LSTM:
+
+look_back 5 curve_0:
+Train Score: 0.0236623807 MSE     Test Score: 0.01700 MSE
+look_back 5 curve_1:
+Train Score: 0.0000958430 MSE     Test Score: 0.00024 MSE
+look_back 5 curve_2:
+Train Score: 0.0001707100 MSE     Test Score: 0.00057 MSE
+look_back 5 curve_3:
+Train Score: 0.0000536423 MSE     Test Score: 0.00007 MSE
+look_back 5 curve_4:
+Train Score: 0.0001189311 MSE     Test Score: 0.00031 MSE
+fc_net_mnist dataset
+
+LSTM:
+
+look_back 10 curve_0:
+Train Score: 0.0204181057 MSE     Test Score: 0.01767 MSE
+look_back 10 curve_1:
+Train Score: 0.0000410598 MSE     Test Score: 0.00014 MSE
+look_back 10 curve_2:
+Train Score: 0.0000476729 MSE     Test Score: 0.00015 MSE
+look_back 10 curve_3:
+Train Score: 0.0000098661 MSE     Test Score: 0.00003 MSE
+look_back 10 curve_4:
+Train Score: 0.0000326081 MSE     Test Score: 0.00010 MSE
+
+fc_net_mnist dataset
+
+
+LSTM with RMSprop:
+
+look_back 3 curve_0:
+Train Score: 0.0236376472 MSE     Test Score: 0.01714 MSE
+look_back 3 curve_1:
+Train Score: 0.0000413221 MSE     Test Score: 0.00009 MSE
+look_back 3 curve_2:
+Train Score: 0.0000294926 MSE     Test Score: 0.00002 MSE
+look_back 3 curve_3:
+Train Score: 0.0000895746 MSE     Test Score: 0.00001 MSE
+look_back 3 curve_4:
+Train Score: 0.0000243932 MSE     Test Score: 0.00006 MSE
