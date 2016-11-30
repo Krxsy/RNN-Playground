@@ -15,11 +15,17 @@ from keras.optimizers import RMSprop
 from sklearn.metrics import mean_squared_error
 from sklearn.preprocessing import MinMaxScaler
 
+'''
+Info writer for storing our scores
+'''
+def info_writer(path, X):
+    with open(path + '/info_file.txt', 'a') as file:
+        file.write(X + '\n')
 
 '''
 converting an array into x,y dataset matrix
 '''
-def create_data(data, look_back = 1):
+def create_data(data, look_back):
     X_data, Y_data = [], []
     for i in range(len(data)- look_back-1):
         a = data[i:(i+look_back)]
@@ -33,30 +39,23 @@ RNN models
 # LSTM
 def _LSTM(trainX, trainY, testX, testY):
     model = Sequential()
-    model.add(LSTM(4, input_shape=trainX.shape[1:]))
+    model.add(LSTM(10, input_shape=trainX.shape[1:]))
     model.add(Dense(1, activation='tanh'))
 
-    model.compile(optimizer = 'adam', 
+    model.compile(optimizer = 'RMSprop', 
                   loss='mean_squared_error',
                   metrics=["accuracy"])
     
     print('Train...')
     model.fit(trainX, trainY,
-              batch_size=1,
-              nb_epoch=50,
+              batch_size=3,
+              nb_epoch=60,
               validation_data=[testX, testY],
-              show_accuracy=False)
+              show_accuracy=True)
 
     print('Predicting...')
     train_preds = model.predict(trainX)
     test_preds = model.predict(testX)
-    
-    print(train_preds)
-    # calculate error
-    trainScore = mean_squared_error(trainY, train_preds)
-    print('Train Score: %.2f MSE' % (trainScore))
-    testScore = mean_squared_error(testY, test_preds)
-    print('Test Score: %.2f MSE' % (testScore))
     
     return train_preds, test_preds
     
@@ -65,7 +64,7 @@ Loading Data and Testing implementations
 '''
 path = os.path.dirname(os.path.realpath(__file__))
 
-N = 4000
+N = 5
 n_epochs = 100
 configs = []
 learning_curves = []
@@ -82,6 +81,9 @@ configs = np.array(configs)
 learning_curves = np.array(learning_curves)
 cost = np.array(cost)
 
+# want to store the info for LSTM
+#info_writer(path,'fc_net_mnist dataset\n\nLSTM with RMSprop:\n')
+
 for i, curve in enumerate(learning_curves):
     # splitting into training and testing set & normalize with MinMax scaler
     scaler = MinMaxScaler(feature_range=(0, 1))
@@ -92,9 +94,10 @@ for i, curve in enumerate(learning_curves):
     train, test = np.array(curve[0:train_size]), np.array(curve[train_size:len(curve)])
     
     # modelling actual dataset
-    look_back = 1 # number of previous time steps to use as input variables to predict the next time period
+    look_back = 3 # number of previous time steps to use as input variables to predict the next time period 
     X_train, Y_train = create_data(train, look_back)
     X_test, Y_test = create_data(test, look_back)
+
     
     # reshape input for models in 3D (samples, time steps, features)
     X_train = np.reshape(X_train, (X_train.shape[0], 1, X_train.shape[1]))
@@ -103,7 +106,15 @@ for i, curve in enumerate(learning_curves):
     print('X_test shape: ', X_test.shape)
 
     train_preds, test_preds = _LSTM(X_train, Y_train, X_test, Y_test)
-
+    # calculate error
+    trainScore = mean_squared_error(Y_train, train_preds)
+    print('Train Score: %.5f MSE' % (trainScore))
+    testScore = mean_squared_error(Y_test, test_preds)
+    print('Test Score: %.5f MSE' % (testScore))
+    
+    # store it
+    info = 'look_back %i curve_%i:\nTrain Score: %.10f MSE     Test Score: %.5f MSE' %(look_back, i, trainScore, testScore)
+    #info_writer(path, info)
     # plotting:
     # invert predictons
     train_preds = scaler.inverse_transform(train_preds)
@@ -124,20 +135,34 @@ for i, curve in enumerate(learning_curves):
     test_preds_plot[:] = np.nan
     test_preds_plot[len(train_preds)+(look_back*2)+1 : len(curve)-1] = test_preds
     
+    # plot predictions
+    plt.clf() 
+    plt.figure(1)
+    plt.title('prediction of learning curves from fc_net_mnist data')
+    plt.plot(Y_test.flatten(), label = 'Testset')
+    plt.plot(test_preds.flatten(), label = 'Test Prediction')
+    plt.xlabel('number of epochs')
+    plt.ylabel('validation error')
+    plt.legend()
+    plt.savefig(path +'/lstm_plots/look_back_3_test_curve_%i.png' %i)
+    plt.clf() 
+    plt.figure(2)
+    plt.title('prediction of learning curves from fc_net_mnist data')
+    plt.plot(Y_train.flatten(), label = 'Trainingset')
+    plt.plot(train_preds.flatten(), label = 'Training Prediction')
+    plt.xlabel('number of epochs')
+    plt.ylabel('validation error')
+    plt.legend()
+    plt.savefig(path +'/lstm_plots/look_back_3_train_curve_%i.png' %i)
+
+    '''
     # plot baseline and predictions
-    plt.plot(scaler.inverse_transform(curve))
-    plt.plot(train_preds_plot)
-    plt.plot(test_preds_plot)
-    plt.savefig(path +'/lstm_plots/curve_%i.png' %i)
-    
-
-'''
-plot_subset = 50
-t_idx = np.arange(1, n_epochs+1)
-
-[plt.plot(t_idx, lc) for lc in learning_curves[:plot_subset]]
-lt.title('subset of learning curves from cnn data')
-plt.xlabel('number of epochs')
-plt.ylabel('validation error')
-plt.show()
-'''
+    plt.title('prediction of learning curves from fc_net_mnist data')
+    plt.plot(scaler.inverse_transform(curve), label = 'learning curve')
+    plt.plot(train_preds_plot, label = 'Train Prediction')
+    plt.plot(test_preds_plot, label = 'Test Prediction' )
+    plt.xlabel('number of epochs')
+    plt.ylabel('validation error')
+    plt.legend()
+    plt.savefig(path +'/lstm_plots/look_back_3_curve_%i.png' %i)
+    '''
