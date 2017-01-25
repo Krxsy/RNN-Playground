@@ -10,8 +10,6 @@ import pickle
 import os
 from matplotlib import pyplot
 from statsmodels.tsa.arima_model import ARIMA
-from sklearn.metrics import mean_squared_error
-from sklearn.preprocessing import MinMaxScaler
 
 '''
 Loading data
@@ -26,7 +24,7 @@ learning_curves = []
 cost = []
 i = 0
 while len(configs) < N:
-    res = pickle.load(open(path + '/learning_curve_prediction/datasets/fc_net_mnist/config_%i.pkl' %i, 'rb'))
+    res = pickle.load(open(path + '/datasets/fc_net_mnist/config_%i.pkl' %i, 'rb'))
     i += 1
     learning_curves.append(res['learning_curve'])
     configs.append(res['config'].get_array())
@@ -42,8 +40,6 @@ Fitting and Predicting
 
 for i, curve in enumerate(learning_curves):
     # normalization
-    scaler = MinMaxScaler(feature_range=(0, 1))
-    curve = scaler.fit_transform(curve)
     train_size = int(len(curve)*0.67)
     test_size = len(curve) - train_size
     
@@ -69,10 +65,11 @@ for i, curve in enumerate(learning_curves):
         obs = test[t]
         history.append(obs)
         print('predicted=%f, expected=%f' % (yhat, obs))
-        error = mean_squared_error(test, predictions)
-        print('Test MSE: %.3f' % error)
-        # plot
-        pyplot.plot(test)
-        pyplot.plot(predictions, color='red')
-        pyplot.show()
-    
+        # old school error calculation
+    error = np.mean((test-predictions)**2)
+    print('Test MSE: %.8f' % error)
+    # plot
+    pyplot.plot(test, label = 'Testset')
+    pyplot.plot(predictions, color='red', label = 'Predictions')
+    pyplot.legend()
+    pyplot.savefig(path +'/lstm_plots/arima_train_curve_%i.png' %i)
